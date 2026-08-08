@@ -21,72 +21,120 @@ Write the C Program using Linux Process API - fork(), wait(), exec()
 
 Test the C Program for the desired output. 
 
-# PROGRAM:
+
 
 ## C Program to create new process using Linux API system calls fork() and getpid() , getppid() and to print process ID and parent Process ID using Linux API system calls
 
+# PROGRAM:
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main()
+{
+    int status;
+
+    printf("Running ps with execl\n");
+
+    if (fork() == 0)
+    {
+        execl("/bin/ps", "ps", "-f", NULL);
+        perror("execl failed");
+        exit(1);
+    }
+
+    wait(&status);
+
+    if (WIFEXITED(status))
+        printf("Child exited with status: %d\n", WEXITSTATUS(status));
+    else
+        printf("Child did not exit successfully\n");
+
+    printf("Running ps with execlp\n");
+
+    if (fork() == 0)
+    {
+        execlp("ps", "ps", "-f", NULL);
+        perror("execlp failed");
+        exit(1);
+    }
+
+    wait(&status);
+
+    if (WIFEXITED(status))
+        printf("Child exited for execlp with status: %d\n", WEXITSTATUS(status));
+    else
+        printf("Child did not exit successfully\n");
+
+    printf("Done.\n");
+
+    return 0;
+}
+
+```
 
 
+## OUTPUT
 
-
-
-
-
-
-
-
-
-
-##OUTPUT
-
-
-
-
+<img width="1397" height="1126" alt="OS exp21" src="https://github.com/user-attachments/assets/7e96b356-f6dd-4136-8531-8da5e33634fd" />
 
 
 
 
 ## C Program to execute Linux system commands using Linux API system calls exec() , exit() , wait() family
 
+## PROGRAM
 
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
+int main() {
+    int status;
+    
+    printf("Running ps with execl\n");
+    if (fork() == 0) {
+        execl("ps", "ps", "-f", NULL);
+        perror("execl failed");
+        exit(1);
+    }
+    wait(&status);
+    
+    if (WIFEXITED(status)) {
+        printf("Child exited with status: %d\n", WEXITSTATUS(status));
+    } else {
+        printf("Child did not exit successfully\n");
+    }
+    
+    printf("Running ps with execlp (without full path)\n");
+    if (fork() == 0) {
+        execlp("ps", "ps", "-f", NULL);
+        perror("execlp failed");
+        exit(1);
+    }
+    wait(&status);
+    
+    if (WIFEXITED(status)) {
+        printf("Child exited for execlp with status: %d\n", WEXITSTATUS(status));
+    } else {
+        printf("Child did not exit successfully\n");
+    }
+    
+    printf("Done.\n");
+    return 0;
+}
 
+```
 
+## OUTPUT
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##OUTPUT
-
-
-
-
-
-
-
-
-
-
-
-
-
+<img width="1402" height="1122" alt="OS exp22" src="https://github.com/user-attachments/assets/e0a68dd6-a106-4bf3-b590-c5af182ddeca" />
 
 
 
