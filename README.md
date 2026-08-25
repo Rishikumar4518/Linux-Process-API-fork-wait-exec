@@ -50,7 +50,7 @@ int main() {
 
 ## OUTPUT
 
-![Alt text](<../Screenshot at 2026-08-25 05-48-02.png>)
+![OS Experiment Output](images/os-exp21.png)
 
 
 
@@ -105,7 +105,7 @@ int main() {
 
 ## OUTPUT
 
-![Alt text](<../Screenshot at 2026-08-25 05-50-08.png>)
+![OS Experiment Output 2](images/os-exp22.png)
 
 
 
