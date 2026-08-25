@@ -27,51 +27,22 @@ Test the C Program for the desired output.
 
 # PROGRAM:
 ```
+#include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <unistd.h>
 
-int main()
-{
-    int status;
+int main() {
+    int pid = fork();
 
-    printf("Running ps with execl\n");
-
-    if (fork() == 0)
-    {
-        execl("/bin/ps", "ps", "-f", NULL);
-        perror("execl failed");
-        exit(1);
+    if (pid == 0) { 
+        printf("I am child, my PID is %d\n", getpid()); 
+        printf("My parent PID is: %d\n", getppid()); 
+        sleep(2);  // Keep child alive for verification
+    } else { 
+        printf("I am parent, my PID is %d\n", getpid()); 
+        wait(NULL); 
     }
-
-    wait(&status);
-
-    if (WIFEXITED(status))
-        printf("Child exited with status: %d\n", WEXITSTATUS(status));
-    else
-        printf("Child did not exit successfully\n");
-
-    printf("Running ps with execlp\n");
-
-    if (fork() == 0)
-    {
-        execlp("ps", "ps", "-f", NULL);
-        perror("execlp failed");
-        exit(1);
-    }
-
-    wait(&status);
-
-    if (WIFEXITED(status))
-        printf("Child exited for execlp with status: %d\n", WEXITSTATUS(status));
-    else
-        printf("Child did not exit successfully\n");
-
-    printf("Done.\n");
-
-    return 0;
 }
 
 ```
@@ -79,7 +50,7 @@ int main()
 
 ## OUTPUT
 
-<img width="1397" height="1126" alt="OS exp21" src="https://github.com/user-attachments/assets/7e96b356-f6dd-4136-8531-8da5e33634fd" />
+![Alt text](<../Screenshot at 2026-08-25 05-48-02.png>)
 
 
 
@@ -134,7 +105,7 @@ int main() {
 
 ## OUTPUT
 
-<img width="1402" height="1122" alt="OS exp22" src="https://github.com/user-attachments/assets/e0a68dd6-a106-4bf3-b590-c5af182ddeca" />
+![Alt text](<../Screenshot at 2026-08-25 05-50-08.png>)
 
 
 
